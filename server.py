@@ -117,7 +117,7 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return flask.jsonify("")
+    return flask.jsonify({})
 
 
 # add_listener, get_listener function come from:
@@ -135,7 +135,7 @@ def get_listener(entity):
     if len(v) != 0:
         return flask.jsonify( v )
     else:
-        return (flask.jsonify(""), 204)
+        return (flask.jsonify({}), 204)
 
 if __name__ == "__main__":
     app.run()
