@@ -6,7 +6,7 @@
     <meta content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <meta name="license" content="
-        Copyright 2013 Abram Hindle
+        Copyright 2013-2021 Abram Hindle, Jiayuan Sun
         
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.
@@ -72,20 +72,6 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 world = {};
 
 // //XXX: TODO Make this prettier!
-// function drawCircle(context,entity) {
-//     with(context) {
-//         beginPath();              
-//         lineWidth = 3;
-//         var x = entity["x"];
-//         var y = entity["y"];
-//         //moveTo(x,y);
-//         fillStyle = entity["colour"];
-//         strokeStyle = fillStyle;
-//         arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
-//         stroke();                                
-//     }
-// }
-
 function drawCircle(context,entity) {
     with(context) {
         var x = entity["x"];
