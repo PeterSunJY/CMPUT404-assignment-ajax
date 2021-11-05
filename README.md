@@ -28,7 +28,7 @@ Code Reference
 
 https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/server.py
 
-2. Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+2.Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
 
 https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/static/observer.js
 
