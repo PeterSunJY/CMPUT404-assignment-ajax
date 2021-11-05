@@ -14,7 +14,7 @@ Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle and
 
 Consultation
 ========================
-1. Jiaxin Wang, CCID: Jiaxin13
+1. Jiaxin Wang, CCID: jiaxin13
 2. Senyu Li, CCID: senyu
 
 Image Reference
