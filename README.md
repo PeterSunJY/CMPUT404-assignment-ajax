@@ -21,3 +21,14 @@ Image Reference
 ========================
 1. https://commons.wikimedia.org/wiki/File:Osu!Logo_(2015).png
 2. https://unsplash.com/photos/ix_kUDzCczo
+
+Code Reference
+========================
+1.Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+
+https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/server.py
+
+2. Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+
+https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/static/observer.js
+

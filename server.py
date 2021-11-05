@@ -48,12 +48,30 @@ class World:
 
     def clear(self):
         self.space = dict()
+        self.listeners = dict()
 
     def get(self, entity):
         return self.space.get(entity,dict())
     
     def world(self):
         return self.space
+
+# notify_all, add_listener, get_listener and clear_listener function come from:
+# Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+# https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/server.py
+
+    def notify_all(self,entity,data):
+        for listener in self.listeners:
+           self.listeners[listener][entity] = data
+
+    def add_listener(self,listener_name):
+        self.listeners[listener_name] = dict()
+
+    def get_listener(self, listener_name):
+        return self.listeners[listener_name]
+
+    def clear_listener(self, listener_name):
+        self.listeners[listener_name] = dict()
 
 # you can test your webservice from the commandline
 # curl -v   -H "Content-Type: application/json" -X PUT http://127.0.0.1:5000/entity/X -d '{"x":1,"y":1}' 
@@ -82,6 +100,7 @@ def update(entity):
     '''update the entities via this interface'''
     temp = flask_post_json()
     myWorld.set(entity, temp)
+    myWorld.notify_all(entity, temp)
     return flask.jsonify(myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])    
@@ -99,6 +118,24 @@ def clear():
     '''Clear the world out!'''
     myWorld.clear()
     return flask.jsonify("")
+
+
+# add_listener, get_listener function come from:
+# Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+# https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/server.py
+@app.route("/listener/<entity>", methods=['POST','PUT'])
+def add_listener(entity):
+    myWorld.add_listener( entity )
+    return flask.jsonify(myWorld.world())
+
+@app.route("/listener/<entity>")    
+def get_listener(entity):
+    v = myWorld.get_listener(entity)
+    myWorld.clear_listener(entity)
+    if len(v) != 0:
+        return flask.jsonify( v )
+    else:
+        return (flask.jsonify(""), 204)
 
 if __name__ == "__main__":
     app.run()

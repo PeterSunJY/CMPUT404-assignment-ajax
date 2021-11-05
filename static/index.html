@@ -30,6 +30,8 @@ var host = window.location.host;
 var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
+var id = "L"+Math.floor(20000000*Math.random());
+
 
 const image = new Image();
 image.src = "osu.png";
@@ -44,9 +46,9 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
                 if (xhr.status==200) {
                     //XXX: parse some JSON from the request!
                     //XXX: Pass the data to the callback!
-                    if (!objects){ world = JSON.parse(xhr.response);}
-                    callback();
+                    if (!objects){callback(JSON.parse(xhr.response));}
                 }
+                renderFrame();
             } 
             catch(e) {
                 alert('Error: ' + e.name);
@@ -92,9 +94,6 @@ function prepEntity(entity) {
 
 function clearFrame() {
     with(context) {
-	// moveTo(0,0);
-	// fillStyle = "#000";
-	// fillRect(0,0,W,H);
     context.drawImage(backgound, 0, 0, W, H);
     }
 
@@ -149,7 +148,7 @@ function addEntity(entity, data) {
     world[entity] = data;
     // drawNextFrame(); // (but should we?)
     //XXX: Send a XHTML Request that updates the entity you just  modified!
-    sendJSONXMLHTTPRequest("/entity/"+entity, data, renderFrame);
+    sendJSONXMLHTTPRequest("/entity/"+entity, data, updateWorldWith);
 
 }
 
@@ -159,6 +158,37 @@ function addEntityWithoutName(data) {
     var name = "X"+(counter++)%100;
     addEntity(name,data);
 }
+
+// updateWorldWith and register function come from: 
+// Abram Hindle, Hazel Victoria Campbell, Gary Dhillon
+// https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/ObserverExampleAJAX/static/observer.js
+function updateWorldWith(objs) {
+        for (var key in objs) {
+            world[key] = objs[key];
+        }
+    }
+
+function register(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState==4) {
+            try {
+                if (xhr.status==200) {
+                    world = JSON.parse(xhr.response);
+                    renderFrame();
+                }
+            } 
+            catch(e) {
+                alert('Error: ' + e.name);
+            }
+        }
+    };
+    xhr.open("POST", "/listener/"+id);
+    xhr.setRequestHeader('content-type', 'application/json');
+    xhr.send();
+}
+// register as a listener
+register(id);
 
 // canvas + mouse/touch is complicated 
 // I give you this because well the mouse/touch stuff is a total
@@ -270,10 +300,9 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
     addEntityWithoutName({'x':x,'y':y, 'size': 50});
 });
 
-
 function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
-    sendJSONXMLHTTPRequest("/world", null, renderFrame);
+    sendJSONXMLHTTPRequest("/listener/"+id, null, updateWorldWith);
     drawFrame();
 }
 
